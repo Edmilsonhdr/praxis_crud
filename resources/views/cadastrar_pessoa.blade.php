@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function limparFormulario() {
+            document.getElementById("form_pessoas").reset(); // Substitua "form" pelo ID do seu formulário
+        }
+    </script>
 
     <title>Cadastro de Pessoas</title>
 </head>
@@ -13,7 +18,7 @@
     <h1>Cadastro de Pessoas</h1>
     <hr>
 
-    <form action="/cadastrar-pessoa" method="POST">
+    <form id="form_pessoas" action="/cadastrar-pessoa" method="POST" onsubmit="return validar_email()">
         @csrf
         <fieldset>
             <legend>Dados Pessoais</legend>
@@ -36,17 +41,17 @@
             <div style="display:flex; gap:50px">
                 <div class=" campo">
                     <label for="">Nome:<span style="color:red">*</span></label><br>
-                    <input class="input-text" type="text" name="pessoa_nome">
+                    <input class="input-text" type="text" name="pessoa_nome" minlength="4" maxlength="50" required>
 
                 </div>
 
                 <div class="campo">
                     <label for="">Idade:<span style="color:red">*</span></label><br>
-                    <input class="input-text" type="number" name="pessoa_idade">
+                    <input class="input-text" type="text" name="pessoa_idade" required>
                 </div>
                 <div class="campo">
                     <label for="">E-mail:<span style="color:red">*</span></label><br>
-                    <input class="input-text" type="email" name="pessoa_email">
+                    <input class="input-text" type="email" name="pessoa_email" required>
                 </div>
                 <div class="campo">
                     <label>Sexo:</label><br>
@@ -65,11 +70,11 @@
             <div style="display:flex; gap:50px">
                 <div class="campo">
                     <label for="">Senha:<span style="color:red">*</span></label><br>
-                    <input class="input-text" type="password" name="pessoa_senha">
+                    <input class="input-text" type="password" name="pessoa_senha" required>
                 </div>
                 <div class="campo">
                     <label for="">Confirmação de senha:<span style="color:red">*</span></label><br>
-                    <input class="input-text" type="password" name="pessoa_confirmar_senha">
+                    <input class="input-text" type="password" name="pessoa_confirmar_senha" required>
                 </div>
             </div>
 
@@ -85,7 +90,7 @@
                     <label for="">cep:<span style="color:red">*</span></label>
                     <div style="display:flex; gap:18px">
 
-                        <input class="input-text" id="pessoa_cep" type="number" name="pessoa_cep">
+                        <input class="input-text" id="pessoa_cep" type="number" name="pessoa_cep" required>
                         <button class="width:200px" id="buscarEndereco">Buscar pelo cep</button>
                     </div>
                 </div>
@@ -94,7 +99,7 @@
                 <div style="display:flex; gap:18px">
                     <div class="campo">
                         <label for="logradouro">Tipo Logradouro:<span style="color:red">*</span></label>
-                        <select id="Logradouro" name="Logradouro" class="input-text">
+                        <select id="Logradouro" name="Logradouro" class="input-text" required>
                             <option value="">Selecione um logradouro</option>
                             @foreach ($tiposLogradouro as $tipoLogradouro)
                             <option value="{{$tipoLogradouro->id}}">{{$tipoLogradouro->nome}}</option>
@@ -105,24 +110,24 @@
 
                     <div class="campo">
                         <label for="">Logradouro:<span style="color:red">*</span></label><br>
-                        <input class="input-text" id="pessoa_logradouro" type="text" name="pessoa_logradouro">
+                        <input class="input-text" id="pessoa_logradouro" type="text" name="pessoa_logradouro" required>
                     </div>
 
                     <div class="campo">
                         <label for="">Número:<span style="color:red">*</span></label><br>
-                        <input class="input-text" id="pessoa_numero" type="number" name="pessoa_numero_rua">
+                        <input class="input-text" id="pessoa_numero" type="number" name="pessoa_numero_rua" required>
                     </div>
 
                     <div class="campo">
                         <label for="">Bairro:<span style="color:red">*</span></label><br>
-                        <input class="input-text" id="pessoa_bairro" type="text" name="pessoa_bairro">
+                        <input class="input-text" id="pessoa_bairro" type="text" name="pessoa_bairro" required>
                     </div>
 
                 </div>
                 <div style="margin-top:18px">
                     <div class="campo">
                         <label for="cidade">Cidade:<span style="color:red">*</span></label>
-                        <select id="cidade" name="cidade" class="input-text">
+                        <select id="cidade" name="cidade" class="input-text" required>
                             <option value="">Selecione um tipo de Cidade</option>
                             @foreach ($cidade as $cidade)
                             <option value="{{ $cidade->id }}">{{ $cidade->nome }}
@@ -138,7 +143,8 @@
 
         <br />
         <input type="submit" value="Salvar" />
-        <input id="limpar" type="reset" value="Limpar" />
+        <input id="limpar" type="reset" value="Limpar" onclick="limparFormulario()" />
+
         <input type="reset" value="Cancelar" onclick="redirectToCadastro()" />
 
     </form>
@@ -180,14 +186,20 @@
                 }
             });
 
-            $("#limpar").on("click", function() {
-                // Reseta o formulário para os valores originais
-                $("#updateForm")[0].reset();
-            });
 
-            function redirectToCadastro() {
-                console.log(45465)
-                window.history.back();
+            function validar_email() {
+                var emailInput = document.querySelector('input[name="pessoa_email"]');
+                var email = emailInput.value;
+
+                // Defina uma expressão regular para verificar o formato do e-mail
+                var padrao = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?$/;
+
+                // Verifique se o e-mail corresponde ao padrão
+                if (padrao.test(email)) {
+                    alert("O email é válido.");
+                } else {
+                    alert("O email não é válido.");
+                }
             }
         });
     </script>

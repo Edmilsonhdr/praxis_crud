@@ -7,7 +7,7 @@ use App\Models\Pessoa;
 use App\Models\Endereco;
 use App\Models\TipoLogradouro;
 use App\Models\Cidade;
-
+use Illuminate\Support\Facades\Validator;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +37,8 @@ Route::get('/cadastrar-pessoa', function () {
 
 Route::post('/cadastrar-pessoa', function (Request $request) {
 
+
+
     // dd($request->all());
     $pessoa = Pessoa::create([
         'nome' => $request->pessoa_nome,
@@ -57,7 +59,7 @@ Route::post('/cadastrar-pessoa', function (Request $request) {
         'bairro' => $request->pessoa_bairro,
     ]);
 
-    return view('cadastrar_pessoa');
+    return redirect('/');
 });
 
 Route::get('/editar_pessoa/{id_pessoa}', function ($id_pessoa) {
@@ -77,16 +79,27 @@ Route::get('/editar_pessoa/{id_pessoa}', function ($id_pessoa) {
 
 Route::put('/atualizar_pessoa/{id_pessoa}', function (Request $request, $id_pessoa) {
     $pessoa = Pessoa::findOrFail($id_pessoa);
+    $endereco = Endereco::where('pessoa_id', $pessoa->id)->first();
+
     $pessoa->nome = $request->pessoa_nome;
     $pessoa->idade = $request->pessoa_idade;
     $pessoa->email = $request->pessoa_email;
     $pessoa->sexo = $request->genero;
     $pessoa->senha = $request->pessoa_senha;
+
+    $endereco->tipo_logradouro_id =  $request->Logradouro;
+    $endereco->cidade_id = $request->cidade;
+    $endereco->logradouro = $request->pessoa_logradouro;
+    $endereco->numero = $request->pessoa_numero_rua;
+    $endereco->cep = $request->pessoa_cep;
+    $endereco->bairro = $request->pessoa_bairro;
     $pessoa->save();
+    $endereco->save();
     return redirect('/');
 });
 
 Route::delete('/excluir-pessoa/{id_pessoa}', function ($id_pessoa) {
     $pessoa = Pessoa::findOrFail($id_pessoa);
     $pessoa->delete();
+    return redirect('/');
 })->name('excluir_pessoa');

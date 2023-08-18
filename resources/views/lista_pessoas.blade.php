@@ -13,25 +13,25 @@
     <input id="novo" type="button" value="Novo" onclick="direcionarParaCadastro()">
 
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
     </style>
 
     <table>
@@ -43,10 +43,11 @@
                 <th>E-mail</th>
                 <th>Sexo</th>
                 <th>Ação</th>
-                <!-- Adicione mais cabeçalhos de coluna conforme necessário -->
+
             </tr>
         </thead>
         <tbody>
+            @if (count($dados['pessoa']) > 0)
             @foreach ($dados['pessoa'] as $index => $pessoa)
 
             <tr>
@@ -81,7 +82,9 @@
 
                     <button onclick="excluirPessoa('{{ $pessoa->id }}')">Excluir Pessoa</button>
 
-                    <form id="excluirForm-{{ $pessoa->id }}" action="{{ route('excluir_pessoa', ['id_pessoa' => $pessoa->id]) }}" method="POST" style="display: none;">
+                    <form id="excluirForm-{{ $pessoa->id }}"
+                        action="{{ route('excluir_pessoa', ['id_pessoa' => $pessoa->id]) }}" method="POST"
+                        style="display: none;">
                         @csrf
                         @method('DELETE')
                     </form>
@@ -94,25 +97,30 @@
                 @endif
             </tr>
             @endforeach
+            @else
+            <tr>
+                <td colspan="6">Nenhum registro encontrado</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 
 
     <script>
-        function direcionarParaCadastro() {
-            window.location.href = "{{ url('/cadastrar-pessoa') }}";
-        }
+    function direcionarParaCadastro() {
+        window.location.href = "{{ url('/cadastrar-pessoa') }}";
+    }
 
-        function direcionarParaEditar(button) {
-            var id = button.getAttribute("data-id");
-            window.location.href = "{{ url('/editar_pessoa/') }}" + '/' + id;
-        }
+    function direcionarParaEditar(button) {
+        var id = button.getAttribute("data-id");
+        window.location.href = "{{ url('/editar_pessoa/') }}" + '/' + id;
+    }
 
-        function excluirPessoa(id) {
-            if (confirm('Tem certeza que deseja excluir?')) {
-                document.getElementById('excluirForm-' + id).submit();
-            }
+    function excluirPessoa(id) {
+        if (confirm('Tem certeza que deseja excluir?')) {
+            document.getElementById('excluirForm-' + id).submit();
         }
+    }
     </script>
 
 

@@ -13,12 +13,12 @@ class Endereco extends Model
 
     protected $fillable = [
         'pessoa_id',
-        // 'tipo_logradouro_id',
-        // 'cidade_id',
-        // 'logradouro',
-        // 'numero',
-        // 'cep',
-        // 'bairro',
+        'tipo_logradouro_id',
+        'cidade_id',
+        'logradouro',
+        'numero',
+        'cep',
+        'bairro',
 
     ];
 }
