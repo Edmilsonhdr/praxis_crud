@@ -23,7 +23,6 @@ Route::get('/', function () {
     $pessoa = Pessoa::all();
     $endereco = Endereco::all();
     $dados = array_merge(['pessoa' => $pessoa], ['endereco' => $endereco]);
-    // dd($dados);
     return view('lista_pessoas', ['dados' => $dados]);
 });
 
@@ -37,9 +36,6 @@ Route::get('/cadastrar-pessoa', function () {
 
 Route::post('/cadastrar-pessoa', function (Request $request) {
 
-
-
-    // dd($request->all());
     $pessoa = Pessoa::create([
         'nome' => $request->pessoa_nome,
         'idade' => $request->pessoa_idade,
@@ -65,7 +61,7 @@ Route::post('/cadastrar-pessoa', function (Request $request) {
 Route::get('/editar_pessoa/{id_pessoa}', function ($id_pessoa) {
 
     $pessoa = Pessoa::find($id_pessoa);
-    // dd($pessoa);
+
     if ($pessoa) {
         $endereco = Endereco::where('pessoa_id', $pessoa->id)->first();
     } else {

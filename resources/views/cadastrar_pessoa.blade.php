@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function limparFormulario() {
-            document.getElementById("form_pessoas").reset(); // Substitua "form" pelo ID do seu formulário
-        }
+    function limparFormulario() {
+        document.getElementById("form_pessoas").reset();
+    }
     </script>
 
     <title>Cadastro de Pessoas</title>
@@ -18,24 +18,24 @@
     <h1>Cadastro de Pessoas</h1>
     <hr>
 
-    <form id="form_pessoas" action="/cadastrar-pessoa" method="POST" onsubmit="return validar_email()">
+    <form id="form_pessoas" action="/cadastrar-pessoa" method="POST">
         @csrf
         <fieldset>
             <legend>Dados Pessoais</legend>
             <style>
-                .campo {
-                    display: flex;
-                    flex-direction: column;
-                    margin-bottom: 10px;
-                }
+            .campo {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 10px;
+            }
 
-                label {
-                    margin-bottom: 5px;
-                }
+            label {
+                margin-bottom: 5px;
+            }
 
-                .input-text {
-                    width: 220px;
-                }
+            .input-text {
+                width: 220px;
+            }
             </style>
 
             <div style="display:flex; gap:50px">
@@ -153,55 +153,40 @@
 
 
     <script>
-        $(document).ready(function() {
-            var cepInput = $("#pessoa_cep");
-            var logradouroInput = $("#pessoa_logradouro");
-            var bairroInput = $("#pessoa_bairro");
-            var cidadeSelect = $("#cidade");
-            var buscarButton = $("#buscarEndereco");
+    $(document).ready(function() {
+        var cepInput = $("#pessoa_cep");
+        var logradouroInput = $("#pessoa_logradouro");
+        var bairroInput = $("#pessoa_bairro");
+        var cidadeSelect = $("#cidade");
+        var buscarButton = $("#buscarEndereco");
 
-            buscarButton.on("click", function() {
-                event.preventDefault(); // Impede o envio do formulário
-                var cep = cepInput.val().replace(/\D/g, '');
+        buscarButton.on("click", function() {
+            event.preventDefault(); // Impede o envio do formulário
+            var cep = cepInput.val().replace(/\D/g, '');
 
-                if (cep !== "") {
-                    $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
-                        if (!data.erro) {
-                            console.log(data);
-                            logradouroInput.val(data.logradouro);
-                            bairroInput.val(data.bairro);
+            if (cep !== "") {
+                $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
+                    if (!data.erro) {
+                        console.s(data);
+                        logradouroInput.val(data.logradouro);
+                        bairroInput.val(data.bairro);
 
-                            var cidadeLocalidade = data.localidade.trim();
-                            cidadeSelect.find("option").prop("selected",
-                                false); // Remove todos os atributos "selected"
-
-                            // Encontre a opção pelo valor e marque-a como selecionada
-                            cidadeSelect.find("option").each(function() {
-                                if ($(this).text().trim() === cidadeLocalidade) {
-                                    $(this).prop("selected", true);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+                        var cidadeLocalidade = data.localidade.trim();
+                        cidadeSelect.find("option").prop("selected",
+                            false); // Remove todos os atributos "selected"
 
 
-            function validar_email() {
-                var emailInput = document.querySelector('input[name="pessoa_email"]');
-                var email = emailInput.value;
-
-                // Defina uma expressão regular para verificar o formato do e-mail
-                var padrao = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?$/;
-
-                // Verifique se o e-mail corresponde ao padrão
-                if (padrao.test(email)) {
-                    alert("O email é válido.");
-                } else {
-                    alert("O email não é válido.");
-                }
+                        cidadeSelect.find("option").each(function() {
+                            if ($(this).text().trim() === cidadeLocalidade) {
+                                $(this).prop("selected", true);
+                            }
+                        });
+                    }
+                });
             }
         });
+
+    });
     </script>
 
 </body>
