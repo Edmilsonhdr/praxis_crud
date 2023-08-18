@@ -9,7 +9,7 @@
 
 
 
-1. **Instalar as dependências do Laravel:** Navegue para o diretório do projeto Laravel (back-end) e instale as dependências do Composer:
+1. **Instalar as dependências do Laravel:** instale as dependências do Composer:
 
    ```
    composer install
