@@ -28,13 +28,21 @@
    ```
    php artisan migrate
    ```
+5.**Rode as duas querys no banco de dados
 
+    ```
+    INSERT INTO tipo_logradouro (nome) VALUES
+    ('Rua'), ('Avenida'), ('Praça');
 
-5. **Iniciar o servidor do Laravel:** Execute o servidor do Laravel para que o back-end esteja em execução:
+    INSERT INTO cidade (nome) VALUES
+    ('Belo Horizonte'), ('Betim'), ('Contagem');
+    ```
+
+6. **Iniciar o servidor do Laravel:** Execute o servidor do Laravel para que o back-end esteja em execução:
 
    ```
    php artisan serve
    ```
 
-6. **Acessar o projeto:** Agora, você pode acessar o projeto em seu navegador digitando o endereço fornecido pelo servidor do Laravel (geralmente http://localhost:8000/).
+7. **Acessar o projeto:** Agora, você pode acessar o projeto em seu navegador digitando o endereço fornecido pelo servidor do Laravel (geralmente http://localhost:8000/).
 
