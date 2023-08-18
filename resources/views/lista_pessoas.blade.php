@@ -11,7 +11,7 @@
     <h1>Cadastro de Pessoas</h1>
     <hr>
     <input id="novo" type="button" value="Novo" onclick="direcionarParaCadastro()">
-
+    <br><br>
     <style>
         table {
             border-collapse: collapse;

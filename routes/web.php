@@ -7,7 +7,7 @@ use App\Models\Pessoa;
 use App\Models\Endereco;
 use App\Models\TipoLogradouro;
 use App\Models\Cidade;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,7 +41,7 @@ Route::post('/cadastrar-pessoa', function (Request $request) {
         'idade' => $request->pessoa_idade,
         'email' => $request->pessoa_email,
         'sexo' => $request->genero,
-        'senha' => $request->pessoa_senha
+        'senha' => Hash::make($request->pessoa_senha)
     ]);
 
 
