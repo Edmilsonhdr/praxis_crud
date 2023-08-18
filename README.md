@@ -28,15 +28,15 @@
    ```
    php artisan migrate
    ```
-5.**Rode as duas querys no banco de dados
+    5.**Rode as duas querys no banco de dados
 
-    ```
-    INSERT INTO tipo_logradouro (nome) VALUES
-    ('Rua'), ('Avenida'), ('Praça');
-
-    INSERT INTO cidade (nome) VALUES
-    ('Belo Horizonte'), ('Betim'), ('Contagem');
-    ```
+        ```
+        INSERT INTO tipo_logradouro (nome) VALUES
+        ('Rua'), ('Avenida'), ('Praça');
+    
+        INSERT INTO cidade (nome) VALUES
+        ('Belo Horizonte'), ('Betim'), ('Contagem');
+        ```
 
 6. **Iniciar o servidor do Laravel:** Execute o servidor do Laravel para que o back-end esteja em execução:
 
